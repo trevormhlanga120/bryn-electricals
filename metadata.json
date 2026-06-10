@@ -1,0 +1,6 @@
+{
+  "name": "Bryn Auto Electrical Services and Repair",
+  "description": "Premium automotive repair, computer diagnostic operations, and specialized auto electrical engineering in Pretoria, South Africa.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
