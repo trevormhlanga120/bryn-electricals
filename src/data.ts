@@ -1,17 +1,33 @@
 import { ServiceItem, AutoElectricalSystem, GalleryItem, Testimonial, FaqItem } from './types';
 
+// Import image assets as ES Modules to let Vite bundle and hash them safely for production builds (Vercel, etc.)
+import heroImg from './assets/images/black_techs_hero_1781286577246.jpg';
+import heroBgImg from './assets/images/workshop_hero_bg_1781288479581.jpg';
+import diagnosticsImg from './assets/images/black_diagnostic_tech_1781285993011.jpg';
+import electricalImg from './assets/images/black_wiring_tech_1781286021003.jpg';
+import carRadioImg from './assets/images/black_radio_tech_1781286033012.jpg';
+import suspensionImg from './assets/images/black_suspension_tech_1781286007556.jpg';
+import vehicleServiceImg from './assets/images/black_service_tech_1781286048235.jpg';
+import startingRepairsImg from './assets/images/black_starting_tech_1781286594421.jpg';
+import lightingRepairsImg from './assets/images/black_lighting_tech_1781286610281.jpg';
+import centralLockingAlarmImg from './assets/images/black_alarm_tech_1781286060407.jpg';
+
+import siphoAvatar from './assets/images/sipho_avatar_1781286625592.jpg';
+import sarahAvatar from './assets/images/sarah_avatar_1781286641053.jpg';
+import devanAvatar from './assets/images/devan_avatar_1781286658545.jpg';
+
 // Let's reference the high-quality generated assets and official public Unsplash images.
 export const LOCAL_IMAGES = {
-  hero: '/src/assets/images/black_techs_hero_1781286577246.jpg',
-  heroBg: '/src/assets/images/workshop_hero_bg_1781288479581.jpg',
-  diagnostics: '/src/assets/images/black_diagnostic_tech_1781285993011.jpg',
-  electrical: '/src/assets/images/black_wiring_tech_1781286021003.jpg',
-  carRadio: '/src/assets/images/black_radio_tech_1781286033012.jpg',
-  suspension: '/src/assets/images/black_suspension_tech_1781286007556.jpg',
-  vehicleService: '/src/assets/images/black_service_tech_1781286048235.jpg',
-  startingRepairs: '/src/assets/images/black_starting_tech_1781286594421.jpg',
-  lightingRepairs: '/src/assets/images/black_lighting_tech_1781286610281.jpg',
-  centralLockingAlarm: '/src/assets/images/black_alarm_tech_1781286060407.jpg'
+  hero: heroImg,
+  heroBg: heroBgImg,
+  diagnostics: diagnosticsImg,
+  electrical: electricalImg,
+  carRadio: carRadioImg,
+  suspension: suspensionImg,
+  vehicleService: vehicleServiceImg,
+  startingRepairs: startingRepairsImg,
+  lightingRepairs: lightingRepairsImg,
+  centralLockingAlarm: centralLockingAlarmImg
 };
 
 export const SERVICES_DATA: ServiceItem[] = [
@@ -331,7 +347,7 @@ export const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     date: '2026-05-15',
     comment: 'Managing a fleet of 20 delivery vehicles in Johannesburg means we cannot tolerate unscheduled downtime. Their diagnostics is incredibly fast and their physical starting system repairs are absolute class. Turnaround is rapid, billing is clear, and work is rock solid.',
-    avatar: '/src/assets/images/sipho_avatar_1781286625592.jpg'
+    avatar: siphoAvatar
   },
   {
     id: 't2',
@@ -341,7 +357,7 @@ export const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     date: '2026-04-22',
     comment: 'After being quoted a fortune for electrical repairs by my dealership due to standard wiring degradation, I visited their workshop. They identified the exact ground-terminal fault in 30 minutes, repaired the singular wire loom instead of replacing the entire loom, and saved me thousands. Extremely honest team!',
-    avatar: '/src/assets/images/sarah_avatar_1781286641053.jpg'
+    avatar: sarahAvatar
   },
   {
     id: 't3',
@@ -351,7 +367,7 @@ export const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     date: '2026-05-29',
     comment: 'Completely rewired my classic 1984 Alfa Romeo GTV. The team mapped out every circuit, laid down premium flame-retardant sleeving, and modernised the fuse architecture. Simply stunning workmanship. Their attention to detail on electronic diagnostics is unmatched in South Africa.',
-    avatar: '/src/assets/images/devan_avatar_1781286658545.jpg'
+    avatar: devanAvatar
   }
 ];
 
