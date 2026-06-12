@@ -3,6 +3,7 @@ import { AppPage, ServiceItem } from '../types';
 import { SERVICES_DATA, ELECTRICAL_SYSTEMS, GALLERY_DATA, TESTIMONIALS, LOCAL_IMAGES } from '../data';
 import ServiceIcon from './ServiceIcon';
 import DiagnosticHelper from './DiagnosticHelper';
+import OptimizedImage from './OptimizedImage';
 import { 
   Phone, 
   MessageSquare, 
@@ -180,7 +181,8 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
               <img 
                 src={LOCAL_IMAGES.hero} 
                 alt="Bryn Auto High-End Automotive Workshop in action" 
-                className="w-full h-auto object-cover filter brightness-95"
+                className="w-full h-auto object-cover filter brightness-95 text-xs text-transparent"
+                loading="eager"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute top-4 left-4 bg-brand-primary py-2 px-3 text-xs font-bold uppercase tracking-widest font-display text-white border-l-4 border-brand-accent">
@@ -263,7 +265,8 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
               <img 
                 src={LOCAL_IMAGES.hero} 
                 alt="Bryn Auto mobile repair focus" 
-                className="w-full h-auto filter brightness-95"
+                className="w-full h-auto filter brightness-95 text-xs text-transparent"
+                loading="eager"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -503,11 +506,11 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
               >
                 <div>
                   <div className="relative h-48 overflow-hidden bg-slate-900">
-                    <img 
+                    <OptimizedImage 
                       src={service.image} 
                       alt={service.name} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      referrerPolicy="no-referrer"
+                      containerClassName="w-full h-full"
                     />
                     <div className="absolute top-4 right-4 bg-brand-primary p-2.5 text-white">
                       <ServiceIcon name={service.iconName} className="w-5 h-5 text-white" />
@@ -843,11 +846,11 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
 
             <div className="lg:col-span-5 relative">
               <div className="border-[12px] border-slate-800 bg-slate-800">
-                <img 
+                <OptimizedImage 
                   src={LOCAL_IMAGES.electrical} 
                   alt="Precision automotive electrician wiring loom diagnostics" 
                   className="w-full h-auto object-cover"
-                  referrerPolicy="no-referrer"
+                  containerClassName="w-full h-full"
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-brand-accent p-6 max-w-xs hidden sm:block">
@@ -967,11 +970,11 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
                 id={`gallery-preview-card-${item.id}`}
               >
                 <div className="h-64 overflow-hidden">
-                  <img 
+                  <OptimizedImage 
                     src={item.image} 
                     alt={item.title} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    referrerPolicy="no-referrer"
+                    containerClassName="w-full h-full"
                   />
                 </div>
                 <div className="absolute inset-0 bg-brand-primary/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-end text-white">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GALLERY_DATA } from '../data';
 import { GalleryItem } from '../types';
+import OptimizedImage from './OptimizedImage';
 
 export default function GalleryView() {
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
@@ -74,11 +75,11 @@ export default function GalleryView() {
               >
                 <div>
                   <div className="h-64 overflow-hidden relative bg-slate-900 border-b border-slate-200">
-                    <img 
+                    <OptimizedImage 
                       src={item.image} 
                       alt={item.title} 
                       className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
-                      referrerPolicy="no-referrer"
+                      containerClassName="w-full h-full"
                     />
                     <div className="absolute top-4 left-4 bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1.5 font-display border-l-2 border-brand-accent">
                       {item.category}

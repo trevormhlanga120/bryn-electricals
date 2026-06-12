@@ -2,6 +2,7 @@ import React from 'react';
 import { SERVICES_DATA } from '../data';
 import { AppPage, ServiceItem } from '../types';
 import ServiceIcon from './ServiceIcon';
+import OptimizedImage from './OptimizedImage';
 import { 
   CheckCircle2, 
   AlertTriangle, 
@@ -125,11 +126,11 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
                 
                 {/* Visual block */}
                 <div className="relative h-44 sm:h-56 md:h-72 lg:h-96 w-full bg-slate-900 border border-slate-200 overflow-hidden group/image">
-                  <img 
+                  <OptimizedImage 
                     src={activeService.image} 
                     alt={activeService.name} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover/image:scale-105"
-                    referrerPolicy="no-referrer"
+                    containerClassName="w-full h-full"
                   />
                   <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-brand-primary py-1.5 px-2.5 sm:py-2.5 sm:px-4 text-white text-[10px] sm:text-xs font-bold font-display uppercase tracking-widest border-l-2 sm:border-l-4 border-brand-accent flex items-center space-x-1.5 sm:space-x-2 z-10">
                     <ServiceIcon name={activeService.iconName} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-accent" />

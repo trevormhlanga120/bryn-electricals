@@ -2,6 +2,7 @@ import React from 'react';
 import { ELECTRICAL_SYSTEMS, LOCAL_IMAGES } from '../data';
 import { AppPage } from '../types';
 import ServiceIcon from './ServiceIcon';
+import OptimizedImage from './OptimizedImage';
 import { 
   Zap, 
   MessageSquare, 
@@ -106,11 +107,11 @@ export default function AutoElectricalView({ setCurrentPage }: AutoElectricalVie
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-5 border-[12px] border-slate-900 bg-slate-900">
-            <img 
+            <OptimizedImage 
               src={LOCAL_IMAGES.electrical} 
               alt="High precision diagnostic testing of electric coils" 
               className="w-full h-auto object-cover"
-              referrerPolicy="no-referrer"
+              containerClassName="w-full h-full animate-fade"
             />
           </div>
 
