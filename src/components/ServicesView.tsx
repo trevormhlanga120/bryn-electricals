@@ -9,7 +9,8 @@ import {
   Calendar, 
   HelpCircle,
   FileText,
-  BadgeAlert
+  BadgeAlert,
+  MessageSquare
 } from 'lucide-react';
 
 interface ServicesViewProps {
@@ -26,7 +27,16 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
 
   const handleSelectService = (id: string) => {
     setSelectedServiceId(id);
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    
+    // Smooth scroll with proper header clearance offset (100px) to prevent sticky nav overlap
+    setTimeout(() => {
+      const targetEl = document.getElementById('services-main-panel');
+      if (targetEl) {
+        const rect = targetEl.getBoundingClientRect();
+        const targetY = rect.top + window.scrollY - 100;
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
+    }, 50);
   };
 
   const handleBookingTrigger = (serviceName: string) => {
@@ -61,7 +71,7 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             {/* LEFT COLUMN: NAVIGATION LIST */}
-            <div className="lg:col-span-4 bg-white border border-slate-200 p-4 space-y-2 sticky top-[100px]" id="services-sidebar-navigation">
+            <div className="lg:col-span-4 bg-white border border-slate-200 p-4 space-y-2 lg:sticky lg:top-[100px] lg:max-h-[calc(100vh-140px)] lg:overflow-y-auto" id="services-sidebar-navigation">
               <span className="block font-display font-black text-xs uppercase tracking-wider text-slate-400 px-3 mb-4">
                 Core Divisions
               </span>
@@ -108,22 +118,36 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
             </div>
 
             {/* RIGHT COLUMN: ACTIVE SERVICE PANEL */}
-            <div className="lg:col-span-8 bg-white border border-slate-200 p-6 sm:p-10 space-y-8" id="services-main-panel">
+            <div className="lg:col-span-8 bg-white border border-slate-200 p-6 sm:p-10 space-y-8 scroll-mt-[100px]" id="services-main-panel">
               
               {/* Image & Title Header */}
               <div className="space-y-6">
                 
                 {/* Visual block */}
-                <div className="relative h-64 sm:h-96 w-full bg-slate-900 border border-slate-200 overflow-hidden">
+                <div className="relative h-44 sm:h-56 md:h-72 lg:h-96 w-full bg-slate-900 border border-slate-200 overflow-hidden group/image">
                   <img 
                     src={activeService.image} 
                     alt={activeService.name} 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover/image:scale-105"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute top-4 left-4 bg-brand-primary py-2.5 px-4 text-white text-xs font-bold font-display uppercase tracking-widest border-l-4 border-brand-accent flex items-center space-x-2">
+                  <div className="absolute top-4 left-4 bg-brand-primary py-2.5 px-4 text-white text-xs font-bold font-display uppercase tracking-widest border-l-4 border-brand-accent flex items-center space-x-2 z-10">
                     <ServiceIcon name={activeService.iconName} className="w-4 h-4 text-brand-accent" />
                     <span>BRYN AUTO SPECIFICATION SECTION</span>
+                  </div>
+                  
+                  {/* Absolute Center WhatsApp Book Button */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover/image:bg-black/50 transition-colors duration-300">
+                    <a
+                      href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%252520specification%25253A%25250A-%252520*${encodeURIComponent(activeService.name)}*%25250A%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                      target="_blank"
+                      rel="noreferrer"
+                      id="pic-center-wa-booking-trigger"
+                      className="bg-emerald-600 hover:bg-emerald-500 text-white font-display text-xs sm:text-sm font-extrabold px-6 sm:px-8 py-3.5 sm:py-4 tracking-widest uppercase flex items-center space-x-2 shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-none border border-emerald-400 cursor-pointer"
+                    >
+                      <MessageSquare className="w-5 h-5 text-white shrink-0 animate-bounce" />
+                      <span>Book Service</span>
+                    </a>
                   </div>
                 </div>
 
@@ -176,22 +200,34 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
               </div>
 
               {/* ACTION CALL TO ACTION */}
-              <div className="p-6 border border-slate-200 bg-slate-50 flex flex-col sm:flex-row justify-between items-center gap-6">
-                <div>
+              <div className="p-6 border border-slate-200 bg-slate-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div className="max-w-md">
                   <h4 className="font-display font-bold text-xs uppercase tracking-wide text-brand-primary">
                     Book Scheduled Servicing For Your Specific Model
                   </h4>
-                  <p className="text-[11px] text-slate-500 mt-1 leading-snug">
-                    Confirm your date slots online. We will prepare code scopes prior to vehicle arrival.
+                  <p className="text-[11px] text-slate-500 mt-1 leading-snug font-sans">
+                    Confirm your date slots online or chat with our experts on WhatsApp. We will prepare code scopes prior to vehicle arrival.
                   </p>
                 </div>
-                <button
-                  onClick={() => handleBookingTrigger(activeService.name)}
-                  id="srv-inline-booking-trigger"
-                  className="btn-premium bg-brand-accent hover:bg-red-700 text-white text-xs font-bold px-6 py-3.5 tracking-wider uppercase inline-block shrink-0"
-                >
-                  {activeService.ctaText}
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0 justify-end">
+                  <button
+                    onClick={() => handleBookingTrigger(activeService.name)}
+                    id="srv-inline-booking-trigger"
+                    className="btn-premium bg-brand-primary hover:bg-slate-800 text-white text-xs font-bold px-5 py-3 tracking-wider uppercase text-center cursor-pointer"
+                  >
+                    Book Online
+                  </button>
+                  <a
+                    href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%252520specification%25253A%25250A-%252520*${encodeURIComponent(activeService.name)}*%25250A%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                    target="_blank"
+                    rel="noreferrer"
+                    id="srv-inline-wa-booking-trigger"
+                    className="btn-premium bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-5 py-3 tracking-wider uppercase flex items-center justify-center space-x-1.5 cursor-pointer text-center"
+                  >
+                    <MessageSquare className="w-4 h-4 shrink-0" />
+                    <span>Book on WhatsApp</span>
+                  </a>
+                </div>
               </div>
 
               {/* RELATED SERVICES PANEL */}

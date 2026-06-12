@@ -102,10 +102,10 @@ export default function Layout({ currentPage, setCurrentPage, setSelectedService
 
       {/* STICKY MAIN NAVIGATION */}
       <header 
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+        className={`sticky top-0 z-50 transition-all duration-300 bg-brand-primary ${
           isScrolled 
-            ? 'bg-brand-primary/95 shadow-md py-3' 
-            : 'bg-brand-primary py-4'
+            ? 'shadow-md py-3' 
+            : 'py-4'
         }`}
         id="main-navigation-bar"
       >

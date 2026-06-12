@@ -85,6 +85,146 @@ export default function BookServiceView() {
     }
   };
 
+  const getWhatsAppHref = () => {
+    const textMsg = `Hi Bryn Auto, I would like to book a service with the following specifications:\n\n` +
+      `*Name:* ${formData.fullName || 'Not Specified'}\n` +
+      `*Phone:* ${formData.phone || 'Not Specified'}\n` +
+      `*Email:* ${formData.email || 'Not Specified'}\n` +
+      `*Vehicle :* ${formData.vehicleMake || 'Not Specified'} ${formData.vehicleModel || 'Not Specified'}\n` +
+      `*Service Required:* ${formData.serviceRequired || 'Not Specified'}\n` +
+      `*Preferred Date:* ${formData.preferredDate || 'Not Specified'}\n` +
+      `*Message/Symptoms:* ${formData.message || 'None'}\n\n` +
+      `Please assist with scheduling slots. Thanks!`;
+    return `https://wa.me/27610450608?text=${encodeURIComponent(textMsg)}`;
+  };
+
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    // Simple validation
+    if (!formData.fullName || !formData.phone || !formData.email || !formData.serviceRequired || !formData.preferredDate) {
+      e.preventDefault();
+      setErrorMessage("Please complete all required fields with asterisks (*) before continuing to WhatsApp.");
+      return;
+    }
+
+    // Creating new appointment record
+    const refCode = `APX-${Math.floor(1000 + Math.random() * 9000)}-GP`;
+    const newAppointment: Appointment = {
+      id: refCode,
+      fullName: formData.fullName,
+      phone: formData.phone,
+      email: formData.email,
+      vehicleMake: formData.vehicleMake || 'Not Specified',
+      vehicleModel: formData.vehicleModel || 'Not Specified',
+      serviceRequired: formData.serviceRequired,
+      preferredDate: formData.preferredDate,
+      message: formData.message,
+      bookingTime: new Date().toLocaleString('en-ZA', { hour12: false }),
+      status: 'PENDING'
+    };
+
+    const updated = [newAppointment, ...appointments];
+    setAppointments(updated);
+    localStorage.setItem('apex_service_appointments', JSON.stringify(updated));
+
+    // Reset Form
+    setFormData({
+      fullName: '',
+      phone: '',
+      email: '',
+      vehicleMake: '',
+      vehicleModel: '',
+      serviceRequired: '',
+      preferredDate: '',
+      message: ''
+    });
+    setActiveStep(1); // Reset back to Step 1 on success
+
+    setSuccessMessage(`Appointment logged! Capturing metadata and dispatching direct to WhatsApp. Code Reference: ${refCode}.`);
+    setActiveReceipt(newAppointment);
+
+    // Auto-scroll to confirmation receipt
+    setTimeout(() => {
+      const receiptEl = document.getElementById('receipt-panel-block');
+      if (receiptEl) {
+        receiptEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 120);
+  };
+
+  const getEmailHref = () => {
+    const subjectLine = `Bryn Auto Service Quote Booking Request - ${formData.fullName || 'New Request'}`;
+    const mailBody = `Hi Bryn Auto Dispatch Office,\n\n` +
+      `I would like to request a quotation and book an interactive appointment with the following details:\n\n` +
+      `- Full Name: ${formData.fullName || 'Not Specified'}\n` +
+      `- Phone Number: ${formData.phone || 'Not Specified'}\n` +
+      `- Email Address: ${formData.email || 'Not Specified'}\n` +
+      `- Vehicle: ${formData.vehicleMake || 'Not Specified'} ${formData.vehicleModel || 'Not Specified'}\n` +
+      `- Service Category Name: ${formData.serviceRequired || 'Not Specified'}\n` +
+      `- Pre-selected Admission Date: ${formData.preferredDate || 'Not Specified'}\n` +
+      `- Symptoms / Notes: ${formData.message || 'None'}\n\n` +
+      `Please reply with an itemised pricing quotation and slot validation code. Thank you.`;
+    return `mailto:service@brynauto.co.za?subject=${encodeURIComponent(subjectLine)}&body=${encodeURIComponent(mailBody)}`;
+  };
+
+  const handleEmailAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    // Simple validation
+    if (!formData.fullName || !formData.phone || !formData.email || !formData.serviceRequired || !formData.preferredDate) {
+      e.preventDefault();
+      setErrorMessage("Please complete all required fields with asterisks (*) before sending your email quote request.");
+      return;
+    }
+
+    // Creating new appointment record
+    const refCode = `APX-${Math.floor(1000 + Math.random() * 9000)}-GP`;
+    const newAppointment: Appointment = {
+      id: refCode,
+      fullName: formData.fullName,
+      phone: formData.phone,
+      email: formData.email,
+      vehicleMake: formData.vehicleMake || 'Not Specified',
+      vehicleModel: formData.vehicleModel || 'Not Specified',
+      serviceRequired: formData.serviceRequired,
+      preferredDate: formData.preferredDate,
+      message: formData.message,
+      bookingTime: new Date().toLocaleString('en-ZA', { hour12: false }),
+      status: 'PENDING'
+    };
+
+    const updated = [newAppointment, ...appointments];
+    setAppointments(updated);
+    localStorage.setItem('apex_service_appointments', JSON.stringify(updated));
+
+    // Reset Form
+    setFormData({
+      fullName: '',
+      phone: '',
+      email: '',
+      vehicleMake: '',
+      vehicleModel: '',
+      serviceRequired: '',
+      preferredDate: '',
+      message: ''
+    });
+    setActiveStep(1); // Reset back to Step 1 on success
+
+    setSuccessMessage(`Appointment logged! Generating email quote template and launching client. Code Reference: ${refCode}.`);
+    setActiveReceipt(newAppointment);
+
+    // Auto-scroll to confirmation receipt
+    setTimeout(() => {
+      const receiptEl = document.getElementById('receipt-panel-block');
+      if (receiptEl) {
+        receiptEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 120);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
@@ -383,15 +523,38 @@ export default function BookServiceView() {
                     </div>
                   </div>
 
-                  {/* Desktop Submit Trigger */}
-                  <div>
-                    <button
-                      type="submit"
-                      id="submit-admission-btn"
-                      className="btn-premium w-full text-center bg-brand-accent hover:bg-slate-900 border-2 border-brand-accent hover:border-slate-950 text-white font-bold px-8 py-4 text-xs uppercase tracking-widest transition-all cursor-pointer"
-                    >
-                      Confirm Admission Request
-                    </button>
+                  {/* Desktop Submit Triggers */}
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <button
+                        type="submit"
+                        id="submit-admission-btn"
+                        className="btn-premium w-full text-center bg-brand-primary hover:bg-slate-800 text-white font-bold px-3 py-4 text-[11px] uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+                      >
+                        <Settings className="w-4 h-4 shrink-0" />
+                        <span>Confirm Web Request</span>
+                      </button>
+                      <a
+                        href={getWhatsAppHref()}
+                        onClick={handleAnchorClick}
+                        target="_blank"
+                        rel="noreferrer"
+                        id="submit-admission-wa-btn"
+                        className="btn-premium w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-4 text-[11px] uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+                      >
+                        <MessageSquare className="w-4 h-4 shrink-0" />
+                        <span>Book via WhatsApp</span>
+                      </a>
+                      <a
+                        href={getEmailHref()}
+                        onClick={handleEmailAnchorClick}
+                        id="submit-admission-email-btn"
+                        className="btn-premium w-full text-center bg-blue-700 hover:bg-blue-800 text-white font-bold px-3 py-4 text-[11px] uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+                      >
+                        <Mail className="w-4 h-4 shrink-0" />
+                        <span>Request Quote via Email</span>
+                      </a>
+                    </div>
                     <span className="block text-[10px] text-center text-slate-400 mt-3 uppercase tracking-wider">
                       Our standard warranty terms protect every component diagnostic repair.
                     </span>
@@ -673,12 +836,32 @@ export default function BookServiceView() {
                         Next Step
                       </button>
                     ) : (
-                      <button
-                        type="submit"
-                        className="bg-brand-accent text-white font-display font-bold uppercase text-[10px] tracking-wider px-5 py-3 flex-1 text-center cursor-pointer"
-                      >
-                        Confirm Booking
-                      </button>
+                      <div className="flex flex-col gap-2 flex-1">
+                        <button
+                          type="submit"
+                          className="bg-brand-primary text-white font-display font-bold uppercase text-[10px] tracking-wider px-4 py-3 text-center cursor-pointer w-full"
+                        >
+                          Confirm Web Reservation
+                        </button>
+                        <a
+                          href={getWhatsAppHref()}
+                          onClick={handleAnchorClick}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="bg-emerald-650 hover:bg-emerald-700 text-white font-display font-bold uppercase text-[10px] tracking-wider px-4 py-3 text-center justify-center items-center flex space-x-1.5 cursor-pointer w-full"
+                        >
+                          <MessageSquare className="w-3.5 h-3.5 shrink-0" />
+                          <span>Direct to WhatsApp</span>
+                        </a>
+                        <a
+                          href={getEmailHref()}
+                          onClick={handleEmailAnchorClick}
+                          className="bg-blue-700 hover:bg-blue-800 text-white font-display font-bold uppercase text-[10px] tracking-wider px-4 py-3 text-center justify-center items-center flex space-x-1.5 cursor-pointer w-full"
+                        >
+                          <Mail className="w-3.5 h-3.5 shrink-0" />
+                          <span>Request Quote via Email</span>
+                        </a>
+                      </div>
                     )}
                   </div>
 

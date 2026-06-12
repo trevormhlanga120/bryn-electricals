@@ -2,9 +2,16 @@ import { ServiceItem, AutoElectricalSystem, GalleryItem, Testimonial, FaqItem } 
 
 // Let's reference the high-quality generated assets and official public Unsplash images.
 export const LOCAL_IMAGES = {
-  hero: '/src/assets/images/hero_automotive_service_1781080543519.png',
-  diagnostics: '/src/assets/images/diagnostics_tech_1781080558165.png',
-  electrical: '/src/assets/images/auto_electrical_repair_1781080572313.png'
+  hero: '/src/assets/images/black_techs_hero_1781286577246.jpg',
+  heroBg: '/src/assets/images/workshop_hero_bg_1781288479581.jpg',
+  diagnostics: '/src/assets/images/black_diagnostic_tech_1781285993011.jpg',
+  electrical: '/src/assets/images/black_wiring_tech_1781286021003.jpg',
+  carRadio: '/src/assets/images/black_radio_tech_1781286033012.jpg',
+  suspension: '/src/assets/images/black_suspension_tech_1781286007556.jpg',
+  vehicleService: '/src/assets/images/black_service_tech_1781286048235.jpg',
+  startingRepairs: '/src/assets/images/black_starting_tech_1781286594421.jpg',
+  lightingRepairs: '/src/assets/images/black_lighting_tech_1781286610281.jpg',
+  centralLockingAlarm: '/src/assets/images/black_alarm_tech_1781286060407.jpg'
 };
 
 export const SERVICES_DATA: ServiceItem[] = [
@@ -28,7 +35,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Schedule Routine Service',
     relatedServiceIds: ['diagnostics', 'suspension-repairs'],
-    image: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.vehicleService
   },
   {
     id: 'diagnostics',
@@ -72,7 +79,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Solve Starting Issue',
     relatedServiceIds: ['charging-system', 'vehicle-rewiring'],
-    image: 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.startingRepairs
   },
   {
     id: 'charging-system',
@@ -94,7 +101,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Test Charging System',
     relatedServiceIds: ['starting-system', 'vehicle-rewiring'],
-    image: 'https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'lighting-repairs',
@@ -116,7 +123,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Repair Lighting System',
     relatedServiceIds: ['vehicle-rewiring', 'central-locking-alarm'],
-    image: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.lightingRepairs
   },
   {
     id: 'vehicle-rewiring',
@@ -138,7 +145,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Book Electrical Inspection',
     relatedServiceIds: ['diagnostics', 'starting-system'],
-    image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.electrical
   },
   {
     id: 'central-locking-alarm',
@@ -160,7 +167,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Secure Your Vehicle',
     relatedServiceIds: ['car-radio', 'vehicle-rewiring'],
-    image: 'https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.centralLockingAlarm
   },
   {
     id: 'car-radio',
@@ -182,7 +189,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Upgrade Infotainment',
     relatedServiceIds: ['central-locking-alarm', 'vehicle-rewiring'],
-    image: 'https://images.unsplash.com/photo-1600706432502-75a0e2b34440?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.carRadio
   },
   {
     id: 'suspension-repairs',
@@ -204,7 +211,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     ctaText: 'Restore Smooth Handling',
     relatedServiceIds: ['vehicle-servicing', 'diagnostics'],
-    image: 'https://images.unsplash.com/photo-1530047625168-4b18df2df8f6?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.suspension
   }
 ];
 
@@ -215,7 +222,7 @@ export const ELECTRICAL_SYSTEMS: AutoElectricalSystem[] = [
     description: 'The heartbeat of your vehicles electrical ecosystem. We test state-of-health (SOH), check cold cranking amps (CCA), repair loose battery terminals, and source premium heavy-duty replacement batteries.',
     items: ['State of Health electronic scan', 'Parasitic load test on dormant vehicles', 'Terminal cleanup and anti-corrosion coating', 'Premium battery brand installations'],
     iconName: 'Battery',
-    image: 'https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'alternators',
@@ -223,7 +230,7 @@ export const ELECTRICAL_SYSTEMS: AutoElectricalSystem[] = [
     description: 'Without a functional alternator, your vehicle will die mid-route. Our shop tests output, repairs individual rectifiers, swaps out worn-out brushes, and builds custom charging solutions for auxiliary setups.',
     items: ['Alternator brush & regulator replacement', 'Pulley and drive belt tension alignment', 'Diodes and rectifier testing', 'Dual battery systems for off-roaders'],
     iconName: 'Zap',
-    image: LOCAL_IMAGES.electrical
+    image: 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'starters',
@@ -231,7 +238,7 @@ export const ELECTRICAL_SYSTEMS: AutoElectricalSystem[] = [
     description: 'When starting issues strike, our starter experts perform precision repair on high-amp solenoids, turn down armatures, replace bendix drives, and supply fast, heavy-duty replacement starters.',
     items: ['Solenoid contactor service', 'Bendix drive swap', 'Brushes and carbon gear rebuild', 'New high-torque starters'],
     iconName: 'Gauge',
-    image: 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.startingRepairs
   },
   {
     id: 'lighting',
@@ -239,7 +246,7 @@ export const ELECTRICAL_SYSTEMS: AutoElectricalSystem[] = [
     description: 'Specialists in finding open or shorted wiring circuits inside complex lighting harnesses, headlight replacement, high-power led conversions, and trailer socket rewires.',
     items: ['LED headlight conversions', 'Trailer plug rewiring & relays', 'Indicator relay mapping', 'Control module troubleshooting'],
     iconName: 'Flame',
-    image: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.lightingRepairs
   },
   {
     id: 'rewiring',
@@ -247,7 +254,7 @@ export const ELECTRICAL_SYSTEMS: AutoElectricalSystem[] = [
     description: 'Our pride. Sourcing or customizing looms for complex modern vehicles or completely stripping old classic cars to wire highly safe, modern, labeled wiring configurations.',
     items: ['Custom fuse box layout design', 'Wiring harness heat protection', 'Restored classic wire looms', 'Engine bay harness repairs'],
     iconName: 'Shuffle',
-    image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.electrical
   },
   {
     id: 'electronic-installs',
@@ -255,7 +262,7 @@ export const ELECTRICAL_SYSTEMS: AutoElectricalSystem[] = [
     description: 'Professional integration of premium digital accessories: alarms, central locking mechanisms, GPS trackers, reverse tracking systems, and high fidelity audio structures.',
     items: ['High-decibel digital alarm integrations', 'GPS fleet trackers', 'Reverse cameras & proximity park sensors', 'Android smart systems retrofits'],
     iconName: 'Shield',
-    image: 'https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&w=800&q=80'
+    image: LOCAL_IMAGES.centralLockingAlarm
   }
 ];
 
@@ -271,7 +278,7 @@ export const GALLERY_DATA: GalleryItem[] = [
     id: 'g2',
     title: 'Brake Disc and Shock Replacement',
     category: 'SUSPENSION',
-    image: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80',
+    image: LOCAL_IMAGES.suspension,
     description: 'Removing worn gas shocks and installing premium gas-charged struts on a fleet utility vehicle.'
   },
   {
@@ -285,21 +292,21 @@ export const GALLERY_DATA: GalleryItem[] = [
     id: 'g4',
     title: 'Advanced Alarm Integration',
     category: 'ALARM',
-    image: 'https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&w=800&q=80',
+    image: LOCAL_IMAGES.centralLockingAlarm,
     description: 'Installing remote central locking solenoids and securing key fobs for custom vehicle anti-hijack defense.'
   },
   {
     id: 'g5',
     title: 'Android Headunit Retrofit',
     category: 'RADIO',
-    image: 'https://images.unsplash.com/photo-1600706432502-75a0e2b34440?auto=format&fit=crop&w=800&q=80',
+    image: LOCAL_IMAGES.carRadio,
     description: 'Fitting double-DIN Android infotainment center, fully integrated with steering control wires and active maps.'
   },
   {
     id: 'g6',
     title: 'Multi-Point Scheduled Service',
     category: 'SERVICING',
-    image: 'https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?auto=format&fit=crop&w=800&q=80',
+    image: LOCAL_IMAGES.vehicleService,
     description: 'Conducting full fluid checks, oil filter changes, and spark plug swaps during major vehicle service.'
   }
 ];
@@ -324,7 +331,7 @@ export const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     date: '2026-05-15',
     comment: 'Managing a fleet of 20 delivery vehicles in Johannesburg means we cannot tolerate unscheduled downtime. Their diagnostics is incredibly fast and their physical starting system repairs are absolute class. Turnaround is rapid, billing is clear, and work is rock solid.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'
+    avatar: '/src/assets/images/sipho_avatar_1781286625592.jpg'
   },
   {
     id: 't2',
@@ -334,7 +341,7 @@ export const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     date: '2026-04-22',
     comment: 'After being quoted a fortune for electrical repairs by my dealership due to standard wiring degradation, I visited their workshop. They identified the exact ground-terminal fault in 30 minutes, repaired the singular wire loom instead of replacing the entire loom, and saved me thousands. Extremely honest team!',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80'
+    avatar: '/src/assets/images/sarah_avatar_1781286641053.jpg'
   },
   {
     id: 't3',
@@ -344,7 +351,7 @@ export const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     date: '2026-05-29',
     comment: 'Completely rewired my classic 1984 Alfa Romeo GTV. The team mapped out every circuit, laid down premium flame-retardant sleeving, and modernised the fuse architecture. Simply stunning workmanship. Their attention to detail on electronic diagnostics is unmatched in South Africa.',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80'
+    avatar: '/src/assets/images/devan_avatar_1781286658545.jpg'
   }
 ];
 

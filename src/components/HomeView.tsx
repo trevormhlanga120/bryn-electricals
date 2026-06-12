@@ -89,7 +89,14 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
 
       {/* SECTION 1 - HERO */}
       {/* DESKTOP HERO VIEW */}
-      <section className="hidden md:block relative bg-brand-primary text-white py-20 lg:py-32 overflow-hidden border-b-4 border-brand-accent" id="hero-section">
+      <section 
+        className="hidden md:block relative text-white py-20 lg:py-32 overflow-hidden border-b-4 border-brand-accent bg-cover bg-center bg-no-repeat" 
+        id="hero-section"
+        style={{ backgroundImage: `url(${LOCAL_IMAGES.heroBg})` }}
+      >
+        {/* Deep, high-contrast visual overlay to guarantee content legibility */}
+        <div className="absolute inset-0 bg-slate-950/85 md:bg-brand-primary/90 z-0"></div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           
           <div className="lg:col-span-7 space-y-6">
@@ -186,8 +193,15 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
       </section>
 
       {/* MOBILE PREMIUM COMPACT HERO VIEW (<768px, ~70% Height, Luxury Presentation) */}
-      <section className="md:hidden relative bg-brand-primary text-white overflow-hidden border-b-4 border-brand-accent min-h-[72vh] flex flex-col justify-center" id="mobile-hero-section">
-        <div className="px-5 py-6 space-y-4 flex flex-col justify-center h-full">
+      <section 
+        className="md:hidden relative text-white overflow-hidden border-b-4 border-brand-accent min-h-[72vh] flex flex-col justify-center bg-cover bg-center bg-no-repeat" 
+        id="mobile-hero-section"
+        style={{ backgroundImage: `url(${LOCAL_IMAGES.heroBg})` }}
+      >
+        {/* Mobile professional contrast overlay */}
+        <div className="absolute inset-0 bg-slate-950/90 z-0"></div>
+        
+        <div className="px-5 py-6 space-y-4 flex flex-col justify-center h-full relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -509,14 +523,24 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
                   </div>
                 </div>
 
-                <div className="px-6 pb-6 pt-2">
+                <div className="px-6 pb-6 pt-2 space-y-2">
                   <button
                     onClick={() => handleServiceClick(service.id)}
                     id={`btn-explore-${service.id}`}
-                    className="w-full text-center bg-slate-100 hover:bg-brand-accent hover:text-white text-brand-primary text-xs font-bold uppercase tracking-wider py-2.5 transition-all font-display block"
+                    className="w-full text-center bg-slate-100 hover:bg-brand-primary hover:text-white text-brand-primary text-xs font-bold uppercase tracking-widest py-2 transition-all font-display block"
                   >
                     View Technical Details
                   </button>
+                  <a
+                    href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%2525253A%25250A-%252520*${encodeURIComponent(service.name)}*%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                    target="_blank"
+                    rel="noreferrer"
+                    id={`btn-wa-book-${service.id}`}
+                    className="w-full text-center bg-emerald-650 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-widest py-2 transition-all font-display flex items-center justify-center space-x-1.5"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5 shrink-0" />
+                    <span>Book on WhatsApp</span>
+                  </a>
                 </div>
               </div>
             ))}
@@ -581,15 +605,26 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
               </div>
 
               {/* Slider CTA and indicators */}
-              <div className="space-y-4 pt-4 mt-4 border-t border-slate-100">
-                <button
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={() => handleServiceClick(SERVICES_DATA[activeServiceIndex].id)}
-                  id={`btn-explore-mobile-${SERVICES_DATA[activeServiceIndex].id}`}
-                  className="w-full text-center bg-brand-accent hover:bg-slate-900 border border-brand-accent text-white text-[11px] font-bold uppercase tracking-widest py-3 transition-colors font-display block select-none cursor-pointer"
-                >
-                  Technical Specifications
-                </button>
+              <div className="space-y-3 pt-4 mt-4 border-t border-slate-100">
+                <div className="grid grid-cols-2 gap-2" onPointerDown={(e) => e.stopPropagation()}>
+                  <button
+                    onClick={() => handleServiceClick(SERVICES_DATA[activeServiceIndex].id)}
+                    id={`btn-explore-mobile-${SERVICES_DATA[activeServiceIndex].id}`}
+                    className="w-full text-center bg-brand-accent hover:bg-slate-900 border border-brand-accent text-white text-[11px] font-bold uppercase tracking-wider py-3 transition-colors font-display block select-none cursor-pointer"
+                  >
+                    Specs Sheet
+                  </button>
+                  <a
+                    href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%2525253A%25250A-%252520*${encodeURIComponent(SERVICES_DATA[activeServiceIndex].name)}*%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                    target="_blank"
+                    rel="noreferrer"
+                    id={`btn-wa-book-mobile-${SERVICES_DATA[activeServiceIndex].id}`}
+                    className="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold uppercase tracking-wider py-3 transition-colors font-display block select-none cursor-pointer flex items-center justify-center space-x-1"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5 shrink-0" />
+                    <span>WhatsApp</span>
+                  </a>
+                </div>
 
                 <div className="flex items-center justify-between" onPointerDown={(e) => e.stopPropagation()}>
                   {/* Left / Right triggers */}

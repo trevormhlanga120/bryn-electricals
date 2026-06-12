@@ -191,6 +191,19 @@ export default function AutoElectricalView({ setCurrentPage }: AutoElectricalVie
                   </div>
                 </div>
 
+                {/* WhatsApp booking link */}
+                <div className="mt-4 pt-1 flex justify-end">
+                  <a
+                    href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%252520book%25252520the%25252520following%25252520auto-electrical%25252520service%25252520specification%2525253A%25250A-%252520*${encodeURIComponent(detail.title)}*%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center space-x-1.5 text-[10px] font-bold font-display uppercase text-emerald-700 hover:text-emerald-800 hover:underline border border-dashed border-emerald-300 bg-emerald-50 px-3 py-1.5 tracking-wider w-full justify-center text-center mt-3"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>WhatsApp Booking Inquiry</span>
+                  </a>
+                </div>
+
               </div>
             ))}
           </div>
