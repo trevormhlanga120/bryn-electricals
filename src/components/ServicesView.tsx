@@ -131,24 +131,27 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover/image:scale-105"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute top-4 left-4 bg-brand-primary py-2.5 px-4 text-white text-xs font-bold font-display uppercase tracking-widest border-l-4 border-brand-accent flex items-center space-x-2 z-10">
-                    <ServiceIcon name={activeService.iconName} className="w-4 h-4 text-brand-accent" />
-                    <span>BRYN AUTO SPECIFICATION SECTION</span>
+                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-brand-primary py-1.5 px-2.5 sm:py-2.5 sm:px-4 text-white text-[10px] sm:text-xs font-bold font-display uppercase tracking-widest border-l-2 sm:border-l-4 border-brand-accent flex items-center space-x-1.5 sm:space-x-2 z-10">
+                    <ServiceIcon name={activeService.iconName} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-accent" />
+                    <span className="hidden sm:inline">BRYN AUTO SPECIFICATION SECTION</span>
                   </div>
                   
-                  {/* Absolute Center WhatsApp Book Button */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover/image:bg-black/50 transition-colors duration-300">
+                  {/* Absolute Top-Right WhatsApp Book Button */}
+                  <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20">
                     <a
                       href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%252520specification%25253A%25250A-%252520*${encodeURIComponent(activeService.name)}*%25250A%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
                       target="_blank"
                       rel="noreferrer"
                       id="pic-center-wa-booking-trigger"
-                      className="bg-emerald-600 hover:bg-emerald-500 text-white font-display text-xs sm:text-sm font-extrabold px-6 sm:px-8 py-3.5 sm:py-4 tracking-widest uppercase flex items-center space-x-2 shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-none border border-emerald-400 cursor-pointer"
+                      className="bg-emerald-600 hover:bg-emerald-500 text-white p-3 sm:p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 border border-emerald-400 cursor-pointer flex items-center justify-center"
+                      title="Book Service via WhatsApp"
                     >
-                      <MessageSquare className="w-5 h-5 text-white shrink-0 animate-bounce" />
-                      <span>Book Service</span>
+                      <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-white shrink-0" />
                     </a>
                   </div>
+
+                  {/* Soft Overlay */}
+                  <div className="absolute inset-0 bg-black/10 group-hover/image:bg-black/20 transition-colors duration-300 pointer-events-none" />
                 </div>
 
                 {/* Typography */}
