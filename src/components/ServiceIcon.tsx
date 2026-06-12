@@ -15,7 +15,8 @@ import {
   CheckCircle2,
   Lock,
   Music,
-  ArrowRight
+  ArrowRight,
+  Truck
 } from 'lucide-react';
 
 interface ServiceIconProps {
@@ -58,6 +59,8 @@ export default function ServiceIcon({ name, className = "w-6 h-6", size }: Servi
       return <Lock {...props} />;
     case 'Music':
       return <Music {...props} />;
+    case 'Truck':
+      return <Truck {...props} />;
     default:
       return <Settings {...props} />;
   }

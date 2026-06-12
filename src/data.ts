@@ -11,6 +11,7 @@ import vehicleServiceImg from './assets/images/black_service_tech_1781286048235.
 import startingRepairsImg from './assets/images/black_starting_tech_1781286594421.jpg';
 import lightingRepairsImg from './assets/images/black_lighting_tech_1781286610281.jpg';
 import centralLockingAlarmImg from './assets/images/black_alarm_tech_1781286060407.jpg';
+import mobileAssistantsImg from './assets/images/mobile_assistants_tech_1781297468085.jpg';
 
 import siphoAvatar from './assets/images/sipho_avatar_1781286625592.jpg';
 import sarahAvatar from './assets/images/sarah_avatar_1781286641053.jpg';
@@ -27,7 +28,8 @@ export const LOCAL_IMAGES = {
   vehicleService: vehicleServiceImg,
   startingRepairs: startingRepairsImg,
   lightingRepairs: lightingRepairsImg,
-  centralLockingAlarm: centralLockingAlarmImg
+  centralLockingAlarm: centralLockingAlarmImg,
+  mobileAssistants: mobileAssistantsImg
 };
 
 export const SERVICES_DATA: ServiceItem[] = [
@@ -228,6 +230,28 @@ export const SERVICES_DATA: ServiceItem[] = [
     ctaText: 'Restore Smooth Handling',
     relatedServiceIds: ['vehicle-servicing', 'diagnostics'],
     image: LOCAL_IMAGES.suspension
+  },
+  {
+    id: 'mobile-assistants',
+    name: 'Mobile Assistants & Roadside Dispatch',
+    shortDesc: 'Emergency roadside automotive diagnostic sweeps, instant auxiliary starting help, and on-site wiring bypass repairs.',
+    description: 'When sudden vehicle failure stalls your travel or fleet operations, our dedicated Mobile Assistants dispatch unit brings advanced workshop diagnostics and high-performance repair gear directly to your coordinate. We execute certified roadside sweeps, emergency power-pack jumps, battery replacements, and critical wire repairs to get you moving.',
+    iconName: 'Truck',
+    benefits: [
+      'Saves high towing expenses by resolving many problems on-site',
+      'Direct on-demand real-time roadside assistance dispatch',
+      'Comprehensive computer ECU scanning at your exact coordinate',
+      'Fast delivery and professional fitting of fresh backup batteries'
+    ],
+    problemsSolved: [
+      'Unexpected electrical blackouts or sudden engine starting failures on the road',
+      'Dead batteries, faulty starter solenoids, or alternator failures mid-trip',
+      'Immobiliser lockouts or keys locked inside requiring non-destructive entry options',
+      'Stranded in high-risk zones needing rapid expert automotive technicians'
+    ],
+    ctaText: 'Dispatch Mobile Assistant',
+    relatedServiceIds: ['diagnostics', 'starting-system', 'vehicle-rewiring'],
+    image: LOCAL_IMAGES.mobileAssistants
   }
 ];
 
