@@ -263,7 +263,7 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
               <img 
                 src={LOCAL_IMAGES.hero} 
                 alt="Bryn Auto mobile repair focus" 
-                className="w-full h-24 object-cover filter brightness-95"
+                className="w-full h-auto filter brightness-95"
                 referrerPolicy="no-referrer"
               />
             </div>
