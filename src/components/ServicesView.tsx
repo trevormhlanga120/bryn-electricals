@@ -107,7 +107,7 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
                   Need Immediate Help?
                 </h4>
                 <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
-                  Not sure which service fits your current dashboard symptoms? Get in touch with our Pretoria West dispatch office direct.
+                  Not sure which service fits your current dashboard symptoms? Get in touch with our Capital Park dispatch office direct.
                 </p>
                 <div className="space-y-1.5 text-xs text-white">
                   <a href="tel:+27610450608" id="quick-link-tele-side" className="block text-brand-accent hover:underline font-semibold font-display">

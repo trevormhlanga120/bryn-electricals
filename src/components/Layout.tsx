@@ -396,13 +396,13 @@ export default function Layout({ currentPage, setCurrentPage, setSelectedService
                 <Phone className="w-4 h-4 mr-3 text-brand-accent flex-shrink-0" />
                 <span>+27 61 045 0608</span>
               </a>
-              <span className="flex items-center">
+              <a href="mailto:info@brynauto.co.za" className="flex items-center hover:text-brand-accent transition-colors">
                 <Mail className="w-4 h-4 mr-3 text-brand-accent flex-shrink-0" />
-                <span>service@brynauto.co.za</span>
-              </span>
+                <span>info@brynauto.co.za</span>
+              </a>
               <span className="flex items-start">
                 <MapPin className="w-4 h-4 mr-3 text-brand-accent flex-shrink-0 mt-0.5" />
-                <span className="leading-tight">42 Industrial Ring Rd, Pretoria West, Pretoria, 0183</span>
+                <span className="leading-tight">170 Myburgh St, Capital Park, Pretoria, 0084</span>
               </span>
             </div>
           </div>

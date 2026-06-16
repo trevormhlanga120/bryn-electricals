@@ -168,8 +168,8 @@ export default function FaqView() {
                 📞 CALL +27 61 045 0608
               </a>
               <span className="hidden sm:inline text-slate-600">|</span>
-              <a href="mailto:service@brynauto.co.za" className="font-display text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white">
-                ✉ service@brynauto.co.za
+              <a href="mailto:info@brynauto.co.za" className="font-display text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white">
+                ✉ info@brynauto.co.za
               </a>
             </div>
           </div>

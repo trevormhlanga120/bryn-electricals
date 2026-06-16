@@ -173,7 +173,7 @@ export default function DiagnosticHelper({ setCurrentPage, setSelectedServiceId 
       setSelectedDtc(matched);
       setSearchFeedback(null);
     } else {
-      setSearchFeedback(`Code "${cleanQuery}" is not in our immediate quick-reference. However, our Pretoria West workshop diagnoses ALL OBD-II codes (including manufacturer-specific codes) using Bosch KTS and Launch diagnostic equipment.`);
+      setSearchFeedback(`Code "${cleanQuery}" is not in our immediate quick-reference. However, our Capital Park, Pretoria workshop diagnoses ALL OBD-II codes (including manufacturer-specific codes) using Bosch KTS and Launch diagnostic equipment.`);
     }
   };
 

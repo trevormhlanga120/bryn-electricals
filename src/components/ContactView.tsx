@@ -24,6 +24,8 @@ export default function ContactView() {
 
   const [submissions, setSubmissions] = useState<ContactFormSubmission[]>([]);
   const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     const cached = localStorage.getItem('apex_contact_submissions');
@@ -40,36 +42,70 @@ export default function ContactView() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.phone || !formData.email || !formData.message) {
       alert("Please complete all required fields (*).");
       return;
     }
 
-    const newSubmission: ContactFormSubmission = {
-      id: `MSG-${Math.floor(1000 + Math.random() * 9000)}-SA`,
+    setSending(true);
+    setSuccess(null);
+    setError(null);
+
+    const payload = {
+      type: 'contact',
       fullName: formData.fullName,
       email: formData.email,
       phone: formData.phone,
       subject: formData.subject || 'General Engineering Inquiry',
-      message: formData.message,
-      timestamp: new Date().toLocaleString('en-ZA', { hour12: false })
+      message: formData.message
     };
 
-    const updated = [newSubmission, ...submissions];
-    setSubmissions(updated);
-    localStorage.setItem('apex_contact_submissions', JSON.stringify(updated));
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-    setFormData({
-      fullName: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
+      const resData = await response.json();
 
-    setSuccess(`Thank you, your communication has been securely logged under reference code: ${newSubmission.id}. Our Pretoria West dispatchers will contact you shortly.`);
+      if (response.ok && resData.success) {
+        const newSubmission: ContactFormSubmission = {
+          id: `MSG-${Math.floor(1000 + Math.random() * 9000)}-SA`,
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject || 'General Engineering Inquiry',
+          message: formData.message,
+          timestamp: new Date().toLocaleString('en-ZA', { hour12: false })
+        };
+
+        const updated = [newSubmission, ...submissions];
+        setSubmissions(updated);
+        localStorage.setItem('apex_contact_submissions', JSON.stringify(updated));
+
+        setFormData({
+          fullName: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+
+        setSuccess(`Thank you, your message has been sent successfully to info@brynauto.co.za! We have recorded your submission under reference number ${newSubmission.id} and our Capital Park dispatchers are responding immediately.`);
+      } else {
+        throw new Error(resData.error || 'Server rejected the dispatch.');
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Failed to dispatch email automatically. Please check your network or call us directly.');
+    } finally {
+      setSending(false);
+    }
   };
 
   const formattedPhone = '+27 61 045 0608';
@@ -119,7 +155,7 @@ export default function ContactView() {
                     <MapPin className="w-5 h-5 text-brand-accent mr-3 mt-0.5 shrink-0" />
                     <p className="leading-relaxed">
                       <strong className="text-white block font-display">WORKSHOP FACILITY ADDRESS:</strong>
-                      42 Industrial Ring Road, Pretoria West, Pretoria, Gauteng, 0183, South Africa
+                      170 Myburgh St, Capital Park, Pretoria, 0084, South Africa
                     </p>
                   </div>
 
@@ -137,8 +173,8 @@ export default function ContactView() {
                     <Mail className="w-5 h-5 text-brand-accent mr-3 mt-0.5 shrink-0" />
                     <div>
                       <strong className="text-white block font-display">EMAIL DISPATCH SHEETS:</strong>
-                      <a href="mailto:service@brynauto.co.za" className="text-slate-300 hover:text-white block">
-                        service@brynauto.co.za
+                      <a href="mailto:info@brynauto.co.za" className="text-slate-300 hover:text-white block font-sans">
+                        info@brynauto.co.za
                       </a>
                     </div>
                   </div>
@@ -203,9 +239,17 @@ export default function ContactView() {
 
               {/* Success alert block */}
               {success && (
-                <div className="bg-emerald-50 border-l-4 border-emerald-600 p-4 text-xs text-emerald-800 font-sans flex items-start space-x-2" id="msg-success-alert">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>{success}</span>
+                <div className="bg-emerald-50 border-l-4 border-emerald-600 p-4 text-xs text-emerald-800 font-sans flex items-start space-x-2 animate-fadeIn" id="msg-success-alert">
+                  <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span className="leading-relaxed">{success}</span>
+                </div>
+              )}
+
+              {/* Error alert block */}
+              {error && (
+                <div className="bg-rose-50 border-l-4 border-rose-600 p-4 text-xs text-rose-800 font-sans flex items-start space-x-2 animate-fadeIn" id="msg-error-alert">
+                  <span className="text-rose-600 shrink-0 font-bold text-base leading-none">⚠️</span>
+                  <span className="leading-relaxed">{error}</span>
                 </div>
               )}
 
@@ -298,10 +342,22 @@ export default function ContactView() {
                   <button
                     type="submit"
                     id="submit-contact-btn"
-                    className="btn-premium w-full text-center bg-brand-primary hover:bg-slate-800 text-white font-bold px-6 py-4 text-xs uppercase tracking-widest transition-all inline-flex items-center justify-center space-x-2"
+                    disabled={sending}
+                    className={`btn-premium w-full text-center text-white font-bold px-6 py-4 text-xs uppercase tracking-widest transition-all inline-flex items-center justify-center space-x-2 cursor-pointer ${
+                      sending ? 'bg-slate-400 cursor-not-allowed opacity-80' : 'bg-brand-primary hover:bg-slate-800'
+                    }`}
                   >
-                    <Send className="w-4 h-4 shrink-0" />
-                    <span>Submit Message Ledger</span>
+                    {sending ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent shrink-0" />
+                        <span>Dispatching Message Securely...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 shrink-0" />
+                        <span>Submit Message Ledger</span>
+                      </>
+                    )}
                   </button>
                 </div>
 
@@ -342,12 +398,12 @@ export default function ContactView() {
                   Satellite Grid Location
                 </span>
                 <h3 className="font-display font-bold text-lg text-brand-primary">
-                  Pretoria West Workshop Map Pin
+                  Capital Park Workshop Map Pin
                 </h3>
               </div>
               <div>
                 <a 
-                  href="https://maps.google.com/?q=Pretoria+West+Industrial+Road"
+                  href="https://maps.google.com/?q=170+Myburgh+St,+Capital+Park,+Pretoria,+0084"
                   target="_blank"
                   rel="noreferrer"
                   id="google-maps-directions-link"
@@ -364,7 +420,7 @@ export default function ContactView() {
               {/* Map grid lines */}
               <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
               
-              {/* Fake abstract road grids for Pretoria West industrial layout */}
+              {/* Fake abstract road grids for Capital Park layout */}
               <svg className="absolute inset-0 w-full h-full opacity-30 select-none pointer-events-none" xmlns="http://www.w3.org/2000/svg">
                 <line x1="0" y1="120" x2="2000" y2="120" stroke="#FFFFFF" strokeWidth="12" />
                 <line x1="0" y1="280" x2="2000" y2="280" stroke="#FFFFFF" strokeWidth="16" />
@@ -374,8 +430,8 @@ export default function ContactView() {
               </svg>
 
               {/* Dynamic labels */}
-              <span className="absolute top-18 left-8 text-[11px] font-mono text-slate-500 font-bold tracking-wide uppercase">Industrial Ring Rd N1</span>
-              <span className="absolute bottom-20 right-12 text-[11px] font-mono text-slate-500 font-bold tracking-wide uppercase">Pretoria West Corridor R104</span>
+              <span className="absolute top-18 left-8 text-[11px] font-mono text-slate-500 font-bold tracking-wide uppercase">Myburgh St</span>
+              <span className="absolute bottom-20 right-12 text-[11px] font-mono text-slate-500 font-bold tracking-wide uppercase">Steve Biko Rd</span>
 
               {/* Pinpoint Indicator */}
               <div className="relative z-10 text-center animate-bounce">
@@ -385,17 +441,17 @@ export default function ContactView() {
                 </div>
                 <div className="bg-brand-primary border-t-2 border-brand-accent shadow-xl p-4.5 mt-3 max-w-xs text-left text-white">
                   <span className="block font-display font-black text-xs text-brand-accent tracking-widest mb-1 uppercase">BRYN AUTO HUB</span>
-                  <span className="block text-[11px] text-slate-300 leading-tight">42 Industrial Ring Rd, Pretoria West, 0183</span>
-                  <span className="block text-[10px] text-slate-400 mt-2 font-mono uppercase font-bold text-right">Coord: 25.7533° S, 28.1481° E</span>
+                  <span className="block text-[11px] text-slate-300 leading-tight">170 Myburgh St, Capital Park, 0084</span>
+                  <span className="block text-[10px] text-slate-400 mt-2 font-mono uppercase font-bold text-right">Coord: 25.7265° S, 28.1945° E</span>
                 </div>
               </div>
 
               {/* Surrounding Landmark Indicators */}
-              <div className="absolute top-12 right-24 bg-slate-850 p-2 text-[9px] text-slate-400 border border-slate-700">Pretoria West Station</div>
-              <div className="absolute bottom-16 left-20 bg-slate-850 p-2 text-[9px] text-slate-400 border border-slate-700">Police Depot Station</div>
+              <div className="absolute top-12 right-24 bg-slate-850 p-2 text-[9px] text-slate-400 border border-slate-700">Capital Park Primary</div>
+              <div className="absolute bottom-16 left-20 bg-slate-850 p-2 text-[9px] text-slate-400 border border-slate-700">Apies River Reserve</div>
 
               <div className="absolute bottom-4 left-4 bg-slate-950 p-3 text-[10px] text-slate-400 font-sans uppercase">
-                ⚙ Pretoria West Grid - Real-time Navigation Simulated
+                ⚙ Capital Park Grid - Real-time Navigation Simulated
               </div>
             </div>
 

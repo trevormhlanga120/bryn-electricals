@@ -32,6 +32,7 @@ export default function BookServiceView() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeReceipt, setActiveReceipt] = useState<Appointment | null>(null);
+  const [isEmailSending, setIsEmailSending] = useState(false);
 
   const [activeStep, setActiveStep] = useState(1);
 
@@ -166,19 +167,21 @@ export default function BookServiceView() {
       `- Pre-selected Admission Date: ${formData.preferredDate || 'Not Specified'}\n` +
       `- Symptoms / Notes: ${formData.message || 'None'}\n\n` +
       `Please reply with an itemised pricing quotation and slot validation code. Thank you.`;
-    return `mailto:service@brynauto.co.za?subject=${encodeURIComponent(subjectLine)}&body=${encodeURIComponent(mailBody)}`;
+    return `mailto:info@brynauto.co.za?subject=${encodeURIComponent(subjectLine)}&body=${encodeURIComponent(mailBody)}`;
   };
 
-  const handleEmailAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleEmailAnchorClick = async (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    e.preventDefault();
     setErrorMessage(null);
     setSuccessMessage(null);
 
     // Simple validation
     if (!formData.fullName || !formData.phone || !formData.email || !formData.serviceRequired || !formData.preferredDate) {
-      e.preventDefault();
       setErrorMessage("Please complete all required fields with asterisks (*) before sending your email quote request.");
       return;
     }
+
+    setIsEmailSending(true);
 
     // Creating new appointment record
     const refCode = `APX-${Math.floor(1000 + Math.random() * 9000)}-GP`;
@@ -196,33 +199,66 @@ export default function BookServiceView() {
       status: 'PENDING'
     };
 
-    const updated = [newAppointment, ...appointments];
-    setAppointments(updated);
-    localStorage.setItem('apex_service_appointments', JSON.stringify(updated));
+    const payload = {
+      type: 'booking',
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      vehicleMake: formData.vehicleMake,
+      vehicleModel: formData.vehicleModel,
+      serviceRequired: formData.serviceRequired,
+      preferredDate: formData.preferredDate,
+      message: formData.message
+    };
 
-    // Reset Form
-    setFormData({
-      fullName: '',
-      phone: '',
-      email: '',
-      vehicleMake: '',
-      vehicleModel: '',
-      serviceRequired: '',
-      preferredDate: '',
-      message: ''
-    });
-    setActiveStep(1); // Reset back to Step 1 on success
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-    setSuccessMessage(`Appointment logged! Generating email quote template and launching client. Code Reference: ${refCode}.`);
-    setActiveReceipt(newAppointment);
+      const resData = await response.json();
 
-    // Auto-scroll to confirmation receipt
-    setTimeout(() => {
-      const receiptEl = document.getElementById('receipt-panel-block');
-      if (receiptEl) {
-        receiptEl.scrollIntoView({ behavior: 'smooth' });
+      if (response.ok && resData.success) {
+        const updated = [newAppointment, ...appointments];
+        setAppointments(updated);
+        localStorage.setItem('apex_service_appointments', JSON.stringify(updated));
+
+        // Reset Form
+        setFormData({
+          fullName: '',
+          phone: '',
+          email: '',
+          vehicleMake: '',
+          vehicleModel: '',
+          serviceRequired: '',
+          preferredDate: '',
+          message: ''
+        });
+        setActiveStep(1); // Reset back to Step 1 on success
+
+        setSuccessMessage(`Quote request submitted successfully to info@brynauto.co.za! Reference Code: ${refCode}. You can view your checkout receipt logged below.`);
+        setActiveReceipt(newAppointment);
+
+        // Auto-scroll to confirmation receipt
+        setTimeout(() => {
+          const receiptEl = document.getElementById('receipt-panel-block');
+          if (receiptEl) {
+            receiptEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 120);
+      } else {
+        throw new Error(resData.error || 'Server rejected the reservation dispatch.');
       }
-    }, 120);
+    } catch (err: any) {
+      console.error(err);
+      setErrorMessage(err.message || 'Failed to dispatch booking quote request automatically. Please verify your fields or contact us directly.');
+    } finally {
+      setIsEmailSending(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -545,15 +581,27 @@ export default function BookServiceView() {
                         <MessageSquare className="w-4 h-4 shrink-0" />
                         <span>Book via WhatsApp</span>
                       </a>
-                      <a
-                        href={getEmailHref()}
+                      <button
+                        type="button"
                         onClick={handleEmailAnchorClick}
+                        disabled={isEmailSending}
                         id="submit-admission-email-btn"
-                        className="btn-premium w-full text-center bg-blue-700 hover:bg-blue-800 text-white font-bold px-3 py-4 text-[11px] uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+                        className={`btn-premium w-full text-center text-white font-bold px-3 py-4 text-[11px] uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center space-x-1.5 ${
+                          isEmailSending ? 'bg-slate-450 cursor-not-allowed opacity-85' : 'bg-blue-700 hover:bg-blue-800'
+                        }`}
                       >
-                        <Mail className="w-4 h-4 shrink-0" />
-                        <span>Request Quote via Email</span>
-                      </a>
+                        {isEmailSending ? (
+                          <>
+                            <div className="animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent shrink-0" />
+                            <span>Sending Quote Request...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Mail className="w-4 h-4 shrink-0" />
+                            <span>Request Quote via Email</span>
+                          </>
+                        )}
+                      </button>
                     </div>
                     <span className="block text-[10px] text-center text-slate-400 mt-3 uppercase tracking-wider">
                       Our standard warranty terms protect every component diagnostic repair.
@@ -853,14 +901,26 @@ export default function BookServiceView() {
                           <MessageSquare className="w-3.5 h-3.5 shrink-0" />
                           <span>Direct to WhatsApp</span>
                         </a>
-                        <a
-                          href={getEmailHref()}
+                        <button
+                          type="button"
                           onClick={handleEmailAnchorClick}
-                          className="bg-blue-700 hover:bg-blue-800 text-white font-display font-bold uppercase text-[10px] tracking-wider px-4 py-3 text-center justify-center items-center flex space-x-1.5 cursor-pointer w-full"
+                          disabled={isEmailSending}
+                          className={`text-white font-display font-bold uppercase text-[10px] tracking-wider px-4 py-3 text-center justify-center items-center flex space-x-1.5 cursor-pointer w-full ${
+                            isEmailSending ? 'bg-slate-500 cursor-not-allowed opacity-85' : 'bg-blue-700 hover:bg-blue-800'
+                          }`}
                         >
-                          <Mail className="w-3.5 h-3.5 shrink-0" />
-                          <span>Request Quote via Email</span>
-                        </a>
+                          {isEmailSending ? (
+                            <>
+                              <div className="animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent shrink-0" />
+                              <span>Sending Quote Request...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Mail className="w-3.5 h-3.5 shrink-0" />
+                              <span>Request Quote via Email</span>
+                            </>
+                          )}
+                        </button>
                       </div>
                     )}
                   </div>

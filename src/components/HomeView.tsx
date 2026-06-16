@@ -381,7 +381,7 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
 
               <div className="pt-2 border-t border-slate-800 flex justify-between text-[10px] text-slate-400 font-mono">
                 <span>Tel: +27 61 045 0608</span>
-                <span>Pretoria West, GP</span>
+                <span>Capital Park, PTA</span>
               </div>
             </div>
 
