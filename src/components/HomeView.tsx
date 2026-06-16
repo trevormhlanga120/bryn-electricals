@@ -535,7 +535,7 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
                     View Technical Details
                   </button>
                   <a
-                    href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%2525253A%25250A-%252520*${encodeURIComponent(service.name)}*%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                    href={`https://wa.me/27610450608?text=${encodeURIComponent(`Hi Bryn Auto, I would like to book the following service:\n- *${service.name}*\n\nPlease assist with scheduling. Thanks!`)}`}
                     target="_blank"
                     rel="noreferrer"
                     id={`btn-wa-book-${service.id}`}
@@ -618,7 +618,7 @@ export default function HomeView({ setCurrentPage, setSelectedServiceId }: HomeV
                     Specs Sheet
                   </button>
                   <a
-                    href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%2525253A%25250A-%252520*${encodeURIComponent(SERVICES_DATA[activeServiceIndex].name)}*%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                    href={`https://wa.me/27610450608?text=${encodeURIComponent(`Hi Bryn Auto, I would like to book the following service:\n- *${SERVICES_DATA[activeServiceIndex].name}*\n\nPlease assist with scheduling. Thanks!`)}`}
                     target="_blank"
                     rel="noreferrer"
                     id={`btn-wa-book-mobile-${SERVICES_DATA[activeServiceIndex].id}`}

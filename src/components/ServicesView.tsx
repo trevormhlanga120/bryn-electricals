@@ -140,7 +140,7 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
                   {/* Absolute Top-Right WhatsApp Book Button */}
                   <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20">
                     <a
-                      href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%252520specification%25253A%25250A-%252520*${encodeURIComponent(activeService.name)}*%25250A%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                      href={`https://wa.me/27610450608?text=${encodeURIComponent(`Hi Bryn Auto, I would like to book the following service:\n- *${activeService.name}*\n\nPlease assist with scheduling. Thanks!`)}`}
                       target="_blank"
                       rel="noreferrer"
                       id="pic-center-wa-booking-trigger"
@@ -222,7 +222,7 @@ export default function ServicesView({ selectedServiceId, setSelectedServiceId, 
                     Book Online
                   </button>
                   <a
-                    href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%2520book%252520the%252520following%252520service%252520specification%25253A%25250A-%252520*${encodeURIComponent(activeService.name)}*%25250A%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                    href={`https://wa.me/27610450608?text=${encodeURIComponent(`Hi Bryn Auto, I would like to book the following service:\n- *${activeService.name}*\n\nPlease assist with scheduling. Thanks!`)}`}
                     target="_blank"
                     rel="noreferrer"
                     id="srv-inline-wa-booking-trigger"

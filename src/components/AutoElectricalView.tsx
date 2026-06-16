@@ -24,7 +24,7 @@ interface AutoElectricalViewProps {
 export default function AutoElectricalView({ setCurrentPage }: AutoElectricalViewProps) {
   
   const rawPhone = '+27610450608';
-  const whatsappUrl = `https://wa.me/${rawPhone.replace('+', '')}?text=Hi,%20I%20have%20an%20auto%2520electrical%2520issue%2520with%2520my%2520car%2520and%2520would%2520like%2520help.`;
+  const whatsappUrl = `https://wa.me/${rawPhone.replace('+', '')}?text=${encodeURIComponent("Hi, I have an auto electrical issue with my car and would like help.")}`;
 
   // Explicit mapping of details matching required topics
   const detailsArray = [
@@ -195,7 +195,7 @@ export default function AutoElectricalView({ setCurrentPage }: AutoElectricalVie
                 {/* WhatsApp booking link */}
                 <div className="mt-4 pt-1 flex justify-end">
                   <a
-                    href={`https://wa.me/27610450608?text=Hi%20Bryn%20Auto,%20I%2520would%2520like%2520to%252520book%25252520the%25252520following%25252520auto-electrical%25252520service%25252520specification%2525253A%25250A-%252520*${encodeURIComponent(detail.title)}*%25250APlease%252520assist%252520with%252520scheduling.%252520Thanks!`}
+                    href={`https://wa.me/27610450608?text=${encodeURIComponent(`Hi Bryn Auto, I would like to book the following auto-electrical service:\n- *${detail.title}*\n\nPlease assist with scheduling. Thanks!`)}`}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center space-x-1.5 text-[10px] font-bold font-display uppercase text-emerald-700 hover:text-emerald-800 hover:underline border border-dashed border-emerald-300 bg-emerald-50 px-3 py-1.5 tracking-wider w-full justify-center text-center mt-3"
