@@ -55,7 +55,7 @@ app.post("/api/send-email", async (req: express.Request, res: express.Response):
     let emailHtml = "";
     let textSummary = "";
 
-    const receiverEmail = process.env.EMAIL_RECEIVER || "info@bauto.co.za";
+    const receiverEmail = process.env.EMAIL_RECEIVER || "info@brynauto.co.za";
 
     if (type === "booking") {
       // Validate booking-specific fields
